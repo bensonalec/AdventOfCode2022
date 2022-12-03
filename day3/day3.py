@@ -1,3 +1,9 @@
+def getPrio(char):
+    if(char.islower()):
+        return (ord(char)-96)
+    else:
+        return (ord(char)-64 + 26)
+
 def partOne(inp):
     lines = inp.split("\n")
     score = 0
@@ -6,10 +12,7 @@ def partOne(inp):
         halfTwo = i[len(i)//2:]
         inCommon=list(set(halfOne)&set(halfTwo))
         for char in inCommon:
-            if(char.islower()):
-                score += (ord(char)-96)
-            else:
-                score += (ord(char)-64 + 26)
+            score += getPrio(char)
     print(score)
 
 def partTwo(inp):
@@ -22,10 +25,7 @@ def partTwo(inp):
         counter += 3
         inCommon=list(set(sOne)&set(sTwo)&set(sThree))
         for char in inCommon:
-            if(char.islower()):
-                score += (ord(char)-96)
-            else:
-                score += (ord(char)-64 + 26)
+            score += getPrio(char)
     print(score)
 
 #use sample input
