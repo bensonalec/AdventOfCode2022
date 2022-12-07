@@ -1,25 +1,8 @@
 defmodule DaySix do
-  content = File.read!("sample.txt")
-  content = String.graphemes(content)
-
-  determineSignal = fn
-    content, maxNum ->
-      Enum.filter(
-        Enum.map(Enum.with_index(content), fn {_, ind} ->
-          toCheck = Enum.map(0..(maxNum - 1), fn x -> Enum.at(content, ind + x) end)
-
-          if length(Enum.uniq(toCheck)) == maxNum do
-            ind + 1 + maxNum - 1
-          else
-            nil
-          end
-        end),
-        &(!is_nil(&1))
-      )
+  findIndex = fn
+    maxNum, content ->  Enum.find_index(Enum.chunk_every(content, maxNum, 1, :discard), fn x -> length(Enum.uniq(x)) == maxNum end) + maxNum
   end
-
-  [head | _] = determineSignal.(content, 4)
-  IO.inspect(head)
-  [head | _] = determineSignal.(content, 14)
-  IO.inspect(head)
+  content = "sample.txt" |> File.read! |> String.graphemes
+  IO.inspect findIndex.(4, content)
+  IO.inspect findIndex.(14, content)
 end
